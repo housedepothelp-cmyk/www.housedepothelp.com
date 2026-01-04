@@ -1,0 +1,13 @@
+# backend/deploy_hooks.py
+import requests
+import os
+
+def trigger_vercel_hook(hook_url):
+    requests.post(hook_url)
+    print("Triggered Vercel hook:", hook_url)
+
+def update_site():
+    from clearance_engine import update_database
+    update_database()
+    trigger_vercel_hook(os.getenv("VERCEL_CLEARANCE_HOOK"))
+    trigger_vercel_hook(os.getenv("VERCEL_PENNY_HOOK"))
